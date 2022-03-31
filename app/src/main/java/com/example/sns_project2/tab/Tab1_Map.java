@@ -52,6 +52,7 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
     List<Marker> previous_marker = null;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
