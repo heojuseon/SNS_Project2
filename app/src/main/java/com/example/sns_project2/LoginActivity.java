@@ -12,7 +12,9 @@ import android.widget.ImageButton;
 
 public class LoginActivity extends AppCompatActivity {
     Button loginbtn;
+    Button signupbtn;
     Button button;
+
     ImageButton kakaobtn;
     ImageButton naverbtn;
     ImageButton facebtn;
@@ -27,6 +29,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
+                startActivity(intent);
+            }
+        });
+
+        signupbtn = findViewById(R.id.signup);
+        signupbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
             }
         });

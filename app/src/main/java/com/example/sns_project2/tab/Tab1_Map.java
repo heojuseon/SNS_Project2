@@ -52,6 +52,9 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
     List<Marker> previous_marker = null;
 
 
+    Button searchbtn;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,21 +74,31 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initLocationManager();
 
         previous_marker = new ArrayList<Marker>();
+
+
+        searchbtn = view.findViewById(R.id.search);
+        searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initLocationManager();
+            }
+        });
+
+
 
 
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+
         try {
             MapsInitializer.initialize(this.getContext());
         } catch (Exception e) {
             e.printStackTrace();
         }        gMap = googleMap;
-
 
 
 
@@ -130,6 +143,8 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
     }
 
     class GPSListener implements LocationListener {
+
+
         public void onLocationChanged(Location location) {
             Double latitude = location.getLatitude();
             Double longitude = location.getLongitude();
@@ -166,6 +181,7 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
     public void initPlaceLocation(LatLng location)
     {
         PlacesAPIListener placesAPIListener = new PlacesAPIListener();
+
 
         gMap.clear();//지도 클리어
 

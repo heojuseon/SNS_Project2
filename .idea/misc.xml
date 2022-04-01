@@ -5,8 +5,11 @@
       <map>
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/buttonclick.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/edittext_shape.xml" value="0.237" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.2477355072463768" />
+        <entry key="app/src/main/res/layout/activity_sign_up2.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout/fragment_tab1__map.xml" value="0.1" />
         <entry key="app/src/main/res/menu/menu_tab.xml" value="0.1" />
       </map>
