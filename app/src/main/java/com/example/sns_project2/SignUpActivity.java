@@ -4,19 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.sns_project2.network.SignUpAPI;
+import com.example.sns_project2.network.SignUpRequest;
+import com.example.sns_project2.siginup_data.SignUp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class SignUpActivity extends AppCompatActivity {
+    ArrayList<SignUp> list;
+    Retrofit retrofit;
+    SignUpAPI signupAPI;
+
     Button cancelbtn;
     Button signokbtn;
 
@@ -27,8 +41,17 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_sign_up);
+
+        editid = findViewById(R.id.editID);
+        editpw = findViewById(R.id.editPW);
+        editname = findViewById(R.id.editName);
+
+        list = new ArrayList<>();
+        retrofit = SignUpRequest.getClient();
+        signupAPI = retrofit.create(SignUpAPI.class);
+
+
         cancelbtn = findViewById(R.id.signcancel);
         cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,51 +60,49 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
-        editid = findViewById(R.id.editID);
-        editpw = findViewById(R.id.editPW);
-        editname = findViewById(R.id.editName);
-
         signokbtn = findViewById(R.id.signok);
         signokbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userID = editid.getText().toString();
-                String userPW = editpw.getText().toString();
-                String userName = editname.getText().toString();
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-                            if (success){//등록 성공한 경우
-                                Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                                startActivity(intent);
-
-                            }else {//실패할 경우
-                                Toast.makeText(getApplicationContext(), "가입 실패", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                };
+                addSignUp();
+            }
+        });
 
 
-                //서버로 volley이용해 요청
-                SignUpRequest signUpRequest = new SignUpRequest(userID, userPW, userName, responseListener);
-                RequestQueue requestQueue = Volley.newRequestQueue(SignUpActivity.this);
-                requestQueue.add(signUpRequest);
+
+
+    }
+
+    void addSignUp() {
+        Log.d("apiTest ","addSignUp");
+        SignUp signUp = new SignUp();
+
+        String userid = editid.getText().toString();
+        String userpw = editpw.getText().toString();
+        String username = editname.getText().toString();
+
+
+
+        signUp.setUserId(userid);
+        signUp.setUserPW(userpw);
+        signUp.setUserName(username);
+
+        signupAPI.addSignUp(signUp).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.code() == 200){
+                    Log.d("apiTest",response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
 
             }
         });
-    }
 
+    }
 
 
 }
