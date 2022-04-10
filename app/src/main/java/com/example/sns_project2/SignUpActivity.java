@@ -2,22 +2,15 @@ package com.example.sns_project2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.example.sns_project2.network.SignUpAPI;
 import com.example.sns_project2.network.SignUpRequest;
-import com.example.sns_project2.siginup_data.SignUp;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.sns_project2.member_data.SignUp;
 
 import java.util.ArrayList;
 

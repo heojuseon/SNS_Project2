@@ -1,4 +1,4 @@
-package com.example.sns_project2.siginup_data;
+package com.example.sns_project2.member_data;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;

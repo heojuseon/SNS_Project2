@@ -32,7 +32,7 @@
             app:srcCompat="@drawable/id" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/userID"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/userPW"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_weight="1"

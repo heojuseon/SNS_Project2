@@ -8,9 +8,31 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.example.sns_project2.member_data.Login;
+import com.example.sns_project2.network.SignUpAPI;
+import com.example.sns_project2.network.SignUpRequest;
+import com.example.sns_project2.member_data.SignUp;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
+    ArrayList<SignUp> list;
+    Retrofit retrofit;
+    SignUpAPI signupAPI;
+
+    SignUpRequest signUpRequest;
+
+    EditText edituserid, edituserpw;
+
     Button loginbtn;
     Button signupbtn;
     Button button;
@@ -24,12 +46,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        edituserid = findViewById(R.id.userID);
+        edituserpw = findViewById(R.id.userPW);
+
+        list = new ArrayList<>();
+        retrofit = SignUpRequest.getClient();
+        signupAPI = retrofit.create(SignUpAPI.class);
+
         loginbtn = findViewById(R.id.lgnbtn);
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
-                startActivity(intent);
+
+                addLogin();
+
+//                Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
+//                startActivity(intent);
             }
         });
 
@@ -76,6 +108,39 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("facebook"," click");
             }
         });
+
+    }
+
+    void addLogin() {
+        Log.d("apiTest ","addLogin");
+        Login login = new Login();
+
+        login.setUserId(edituserid.getText().toString());
+        login.setUserPW(edituserpw.getText().toString());
+
+
+
+        signupAPI.addLogin(login).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                if(response.code() == 200){
+                    Log.d("apiTest",response.toString());
+                    Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
+                    startActivity(intent);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("로그인 에러 발생", t.getMessage());
+
+            }
+        });
+
 
     }
 }

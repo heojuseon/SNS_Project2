@@ -1,16 +1,17 @@
 package com.example.sns_project2.network;
 
-import com.example.sns_project2.siginup_data.SignUp;
+import com.example.sns_project2.member_data.Login;
+import com.example.sns_project2.member_data.SignUp;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface SignUpAPI {
 
@@ -19,6 +20,19 @@ public interface SignUpAPI {
 
     @POST("user/signup") //회원 가입
     Call<Void> addSignUp(@Body SignUp post);
+
+    @POST("user/signin") //로그인
+    Call<Void> addLogin(@Body Login post);
+
+
+
+//    @FormUrlEncoded
+//    @POST("user/signin") //로그인
+//    Call<Void> addLogin(@Field("id") String id, @Field("pw") String pw);
+
+//    @POST("user/signin")//로그인
+//    Call<Void> addLogin(@Query("id") String id, @Query("pw") String pw);
+
 
 
 //    @GET("sns") //전체 목록
