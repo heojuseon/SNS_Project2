@@ -2,6 +2,7 @@ package com.example.sns_project2.network;
 
 import com.example.sns_project2.member_data.Login;
 import com.example.sns_project2.member_data.SignUp;
+import com.example.sns_project2.member_data.User;
 
 import java.util.ArrayList;
 
@@ -21,17 +22,15 @@ public interface SignUpAPI {
     @POST("user/signup") //회원 가입
     Call<Void> addSignUp(@Body SignUp post);
 
-    @POST("user/signin") //로그인
-    Call<Void> addLogin(@Body Login post);
-
-
+//    @POST("user/signin") //로그인
+//    Call<Void> addLogin(@Body Login post);
 
 //    @FormUrlEncoded
 //    @POST("user/signin") //로그인
 //    Call<Void> addLogin(@Field("id") String id, @Field("pw") String pw);
 
-//    @POST("user/signin")//로그인
-//    Call<Void> addLogin(@Query("id") String id, @Query("pw") String pw);
+    @GET("user/signin")//로그인
+    Call<User> addLogin(@Query("id") String id, @Query("pw") String pw);
 
 
 

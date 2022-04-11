@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sns_project2.member_data.Login;
+import com.example.sns_project2.member_data.User;
 import com.example.sns_project2.network.SignUpAPI;
 import com.example.sns_project2.network.SignUpRequest;
 import com.example.sns_project2.member_data.SignUp;
@@ -115,14 +116,14 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("apiTest ","addLogin");
         Login login = new Login();
 
-        login.setUserId(edituserid.getText().toString());
-        login.setUserPW(edituserpw.getText().toString());
+//        login.setUserId(edituserid.getText().toString());
+//        login.setUserPW(edituserpw.getText().toString());
 
 
 
-        signupAPI.addLogin(login).enqueue(new Callback<Void>() {
+        signupAPI.addLogin(edituserid.getText().toString(), edituserpw.getText().toString()).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
 
                 if(response.code() == 200){
                     Log.d("apiTest",response.toString());
@@ -133,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
 
                 Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("로그인 에러 발생", t.getMessage());
