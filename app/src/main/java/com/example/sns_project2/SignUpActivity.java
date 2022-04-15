@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.sns_project2.member_data.User;
 import com.example.sns_project2.network.SignUpAPI;
 import com.example.sns_project2.network.SignUpRequest;
 import com.example.sns_project2.member_data.SignUp;
@@ -74,15 +75,13 @@ public class SignUpActivity extends AppCompatActivity {
         String userpw = editpw.getText().toString();
         String username = editname.getText().toString();
 
-
-
         signUp.setUserId(userid);
         signUp.setUserPW(userpw);
         signUp.setUserName(username);
 
-        signupAPI.addSignUp(signUp).enqueue(new Callback<Void>() {
+        signupAPI.addSignUp(signUp).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
 
                 if(response.code() == 200){
                     Log.d("apiTest",response.toString());
@@ -90,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
 
             }
         });

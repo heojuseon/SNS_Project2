@@ -1,6 +1,7 @@
 package com.example.sns_project2.network;
 
 import com.example.sns_project2.member_data.Login;
+import com.example.sns_project2.member_data.ResDTO;
 import com.example.sns_project2.member_data.SignUp;
 import com.example.sns_project2.member_data.User;
 
@@ -20,7 +21,7 @@ public interface SignUpAPI {
     Call<ArrayList<SignUp>> getSignUpList();
 
     @POST("user/signup") //회원 가입
-    Call<Void> addSignUp(@Body SignUp post);
+    Call<User> addSignUp(@Body SignUp post);
 
 //    @POST("user/signin") //로그인
 //    Call<Void> addLogin(@Body Login post);
@@ -30,7 +31,7 @@ public interface SignUpAPI {
 //    Call<Void> addLogin(@Field("id") String id, @Field("pw") String pw);
 
     @GET("user/signin")//로그인
-    Call<User> addLogin(@Query("id") String id, @Query("pw") String pw);
+    Call<ResDTO> addLogin(@Query("id") String id, @Query("pw") String pw);
 
 
 

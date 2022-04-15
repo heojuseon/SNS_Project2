@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sns_project2.member_data.Login;
+import com.example.sns_project2.member_data.ResDTO;
 import com.example.sns_project2.member_data.User;
 import com.example.sns_project2.network.SignUpAPI;
 import com.example.sns_project2.network.SignUpRequest;
@@ -121,9 +122,30 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        signupAPI.addLogin(edituserid.getText().toString(), edituserpw.getText().toString()).enqueue(new Callback<User>() {
+//        signupAPI.addLogin(edituserid.getText().toString(), edituserpw.getText().toString()).enqueue(new Callback<User>() {
+//            @Override
+//            public void onResponse(Call<User> call, Response<User> response) {
+//
+//                if(response.code() == 200){
+//                    Log.d("apiTest",response.toString());
+//                    Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
+//                    startActivity(intent);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//
+//                Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+//                Log.e("로그인 에러 발생", t.getMessage());
+//
+//            }
+//        });
+
+        signupAPI.addLogin(edituserid.getText().toString(), edituserpw.getText().toString()).enqueue(new Callback<ResDTO>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<ResDTO> call, Response<ResDTO> response) {
 
                 if(response.code() == 200){
                     Log.d("apiTest",response.toString());
@@ -134,14 +156,13 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<ResDTO> call, Throwable t) {
 
                 Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
                 Log.e("로그인 에러 발생", t.getMessage());
 
             }
         });
-
 
     }
 }
