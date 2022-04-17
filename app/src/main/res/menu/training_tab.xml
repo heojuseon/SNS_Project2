@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/health_tab"
+        android:title="Health" />
+    <item
+        android:id="@+id/running_tab"
+        android:title="Running" />
+</menu>
