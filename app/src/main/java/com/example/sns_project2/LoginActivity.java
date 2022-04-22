@@ -1,9 +1,14 @@
 package com.example.sns_project2;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +23,13 @@ import com.example.sns_project2.member_data.User;
 import com.example.sns_project2.network.SignUpAPI;
 import com.example.sns_project2.network.SignUpRequest;
 import com.example.sns_project2.member_data.SignUp;
+import com.example.sns_project2.tab.Tab1_Map;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
@@ -35,18 +47,60 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edituserid, edituserpw;
 
-    Button loginbtn;
-    Button signupbtn;
-    Button button;
+    Button loginbtn, signupbtn, button;
 
-    ImageButton kakaobtn;
-    ImageButton naverbtn;
-    ImageButton facebtn;
+    ImageButton kakaobtn, naverbtn, facebtn;
+
+
+    final String TAG = "### google Login ###";
+    //구글
+    GoogleSignInClient mGoogleSignInClient;
+    ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // 구글로그인
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
+
+                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                            signInResult(task);
+
+                        } else {
+
+                        }
+                    }
+                });
+
+        //앱에 필요한 사용자 데이터를 요청하도록 로그인 옵션을 설정한다.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestId()
+                .requestProfile()
+                .build();
+        //GoogleSignInOptions을 사용해 GoogleSignInClient 객체를 생성
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        facebtn = findViewById(R.id.imageButton7);
+        facebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("facebook", " click");
+
+                Intent intent = mGoogleSignInClient.getSignInIntent();
+                resultLauncher.launch(intent);
+
+            }
+        });
+
+
+
 
         edituserid = findViewById(R.id.userID);
         edituserpw = findViewById(R.id.userPW);
@@ -101,14 +155,59 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("naver", "click");
             }
         });
-        facebtn = findViewById(R.id.imageButton7);
-        facebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("facebook"," click");
-            }
-        });
 
+
+    }
+
+    //구글
+    private void signInResult(Task<GoogleSignInAccount> completedTask) {
+
+//        try {
+//            GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
+//
+//            if (completedTask.isSuccessful()){
+//                Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
+//                intent.putExtra(":personName ", acct.getDisplayName());
+//                intent.putExtra(":personGivenName ", acct.getGivenName());
+//                intent.putExtra(":personFamilyName ", acct.getFamilyName());
+//                intent.putExtra(":personEmail ", acct.getEmail());
+//                intent.putExtra(":personId ", acct.getId());
+//                intent.putExtra(":personPhoto ", acct.getPhotoUrl());
+//                startActivity(intent);
+//            }
+//        } catch (ApiException e){
+//            Log.e(TAG, "signInResult:failed code=" + e.getStatusCode());
+//        }
+
+
+        try {
+            GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
+
+            if (acct != null) {
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+
+                Log.d(TAG, ":personName "+personName);
+                Log.d(TAG, ":personGivenName "+personGivenName);
+                Log.d(TAG, ":personEmail "+personEmail);
+                Log.d(TAG, ":personId "+personId);
+                Log.d(TAG, ":personFamilyName "+personFamilyName);
+                Log.d(TAG, ":personPhoto "+personPhoto);
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
+                startActivity(intent);
+
+            }
+        } catch (ApiException e) {
+
+            Log.e(TAG, "signInResult:failed code=" + e.getStatusCode());
+
+        }
     }
 
     void addLogin() {

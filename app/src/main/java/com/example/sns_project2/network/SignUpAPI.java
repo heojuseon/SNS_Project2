@@ -21,7 +21,7 @@ public interface SignUpAPI {
     Call<ArrayList<SignUp>> getSignUpList();
 
     @POST("user/signup") //회원 가입
-    Call<User> addSignUp(@Body SignUp post);
+    Call<ResDTO> addSignUp(@Body SignUp post);
 
 //    @POST("user/signin") //로그인
 //    Call<Void> addLogin(@Body Login post);

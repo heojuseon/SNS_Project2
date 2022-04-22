@@ -1,6 +1,7 @@
 package com.example.sns_project2.tab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -60,6 +61,7 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_tab1__map, container, false);
+
 
         /*Fragment내에서는 mapView로 지도를 실행*/
         mapView = (MapView) rootView.findViewById(R.id.mapView);

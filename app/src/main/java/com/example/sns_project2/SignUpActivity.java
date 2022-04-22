@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.sns_project2.member_data.ResDTO;
 import com.example.sns_project2.member_data.User;
 import com.example.sns_project2.network.SignUpAPI;
 import com.example.sns_project2.network.SignUpRequest;
@@ -79,9 +80,9 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setUserPW(userpw);
         signUp.setUserName(username);
 
-        signupAPI.addSignUp(signUp).enqueue(new Callback<User>() {
+        signupAPI.addSignUp(signUp).enqueue(new Callback<ResDTO>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<ResDTO> call, Response<ResDTO> response) {
 
                 if(response.code() == 200){
                     Log.d("apiTest",response.toString());
@@ -89,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<ResDTO> call, Throwable t) {
 
             }
         });
