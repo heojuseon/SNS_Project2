@@ -9,58 +9,63 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sns_project2.R;
+import com.example.sns_project2.board_tab.Board;
+import com.example.sns_project2.board_tab.Calendar;
+import com.example.sns_project2.training_tab.Health;
+import com.example.sns_project2.training_tab.Running;
+import com.google.android.material.tabs.TabLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Tab3_Sns#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Tab3_Sns extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Board board;
+    Calendar calendar;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Tab3_Sns() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Tab3_Sns.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Tab3_Sns newInstance(String param1, String param2) {
-        Tab3_Sns fragment = new Tab3_Sns();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    TabLayout board_tabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab3__sns, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_tab3__sns, container, false);
+
+        board = new Board();
+        calendar = new Calendar();
+
+//        getChildFragmentManager().beginTransaction().replace(R.id.training_fram, health).commit();
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.board_fram, board).commit();
+        board_tabLayout = rootView.findViewById(R.id.tablayout2);
+        board_tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.board_fram, board).commit();
+
+                        break;
+
+                    case 1:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.board_fram, calendar).commit();
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+
+
+        return rootView;
     }
 }

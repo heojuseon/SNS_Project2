@@ -18,25 +18,4 @@ public class SignUpRequest {
         return retrofit;
     }
 
-
-
-
-
-//    private Map<String, String> map;
-//
-//    public SignUpRequest(String userID, String userPW, String userName, Response.Listener<String> listener) {
-//        super(Method.POST, JDBC_URL, listener, null);
-//
-//
-//        map = new HashMap<>();
-//        map.put("userID", userID);
-//        map.put("userPW", userPW);
-//        map.put("userName", userName);
-//    }
-//
-//    @Nullable
-//    @Override
-//    protected Map<String, String> getParams() throws AuthFailureError {
-//        return map;
-//    }
 }

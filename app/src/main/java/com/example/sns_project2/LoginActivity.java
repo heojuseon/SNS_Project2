@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                addLogin();
+                addLogin(edituserid.getText().toString(), edituserpw.getText().toString());
 
             }
         });
@@ -162,29 +162,14 @@ public class LoginActivity extends AppCompatActivity {
     //구글
     private void signInResult(Task<GoogleSignInAccount> completedTask) {
 
-//        try {
-//            GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
-//
-//            if (completedTask.isSuccessful()){
-//                Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
-//                intent.putExtra(":personName ", acct.getDisplayName());
-//                intent.putExtra(":personGivenName ", acct.getGivenName());
-//                intent.putExtra(":personFamilyName ", acct.getFamilyName());
-//                intent.putExtra(":personEmail ", acct.getEmail());
-//                intent.putExtra(":personId ", acct.getId());
-//                intent.putExtra(":personPhoto ", acct.getPhotoUrl());
-//                startActivity(intent);
-//            }
-//        } catch (ApiException e){
-//            Log.e(TAG, "signInResult:failed code=" + e.getStatusCode());
-//        }
 
 
         try {
             GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
 
             if (acct != null) {
+                Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+
                 String personName = acct.getDisplayName();
                 String personGivenName = acct.getGivenName();
                 String personFamilyName = acct.getFamilyName();
@@ -199,8 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, ":personFamilyName "+personFamilyName);
                 Log.d(TAG, ":personPhoto "+personPhoto);
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
-                startActivity(intent);
+                addLogin(personEmail,"");
 
             }
         } catch (ApiException e) {
@@ -210,37 +194,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    void addLogin() {
+    void addLogin(String userid, String userpw) {
         Log.d("apiTest ","addLogin");
-        Login login = new Login();
-
-//        login.setUserId(edituserid.getText().toString());
-//        login.setUserPW(edituserpw.getText().toString());
 
 
 
-//        signupAPI.addLogin(edituserid.getText().toString(), edituserpw.getText().toString()).enqueue(new Callback<User>() {
-//            @Override
-//            public void onResponse(Call<User> call, Response<User> response) {
-//
-//                if(response.code() == 200){
-//                    Log.d("apiTest",response.toString());
-//                    Intent intent = new Intent(getApplicationContext(), MainActivity_Fragment.class);
-//                    startActivity(intent);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<User> call, Throwable t) {
-//
-//                Toast.makeText(LoginActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
-//                Log.e("로그인 에러 발생", t.getMessage());
-//
-//            }
-//        });
-
-        signupAPI.addLogin(edituserid.getText().toString(), edituserpw.getText().toString()).enqueue(new Callback<ResDTO>() {
+        signupAPI.addLogin(userid, userpw).enqueue(new Callback<ResDTO>() {
             @Override
             public void onResponse(Call<ResDTO> call, Response<ResDTO> response) {
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.sns_project2.LoginActivity;
 import com.example.sns_project2.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -50,6 +51,9 @@ public class Tab4_Setting extends Fragment {
             @Override
             public void onClick(View view) {
                 signOut();
+
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
 
