@@ -11,16 +11,22 @@ import android.view.ViewGroup;
 import com.example.sns_project2.R;
 import com.example.sns_project2.board_tab.Board;
 import com.example.sns_project2.board_tab.Calendar;
+import com.example.sns_project2.sns_data.Sns;
+import com.example.sns_project2.sns_network.SnsAPI;
 import com.example.sns_project2.training_tab.Health;
 import com.example.sns_project2.training_tab.Running;
 import com.google.android.material.tabs.TabLayout;
 
-public class Tab3_Sns extends Fragment {
+import java.util.ArrayList;
 
+import retrofit2.Retrofit;
+
+public class Tab3_Sns extends Fragment {
     Board board;
     Calendar calendar;
 
     TabLayout board_tabLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
