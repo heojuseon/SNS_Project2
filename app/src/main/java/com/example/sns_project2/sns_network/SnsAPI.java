@@ -16,10 +16,12 @@ import retrofit2.http.Path;
 public interface SnsAPI {
 
     @GET("sns") //전체 목록
-    Call<ArrayList<Sns_board>> getSnsList();
+    Call<ArrayList<Sns>> getSnsList();
+//    @GET("sns") //전체 목록
+//    Call<ArrayList<Sns_board>> getSnsList();
 
     @POST("sns") //등록
-    Call<Sns> addSns(@Body Sns_board post);
+    Call<Sns_board> addSns(@Body Sns_board post);
 
 //    @GET("sns/{sid}") //상세 목록
 //    Call<Sns> getSns(@Path("sid") int sid);

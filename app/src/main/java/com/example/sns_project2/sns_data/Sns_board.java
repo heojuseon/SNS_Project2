@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Sns_board implements Serializable{
+    //Sns_board 클래스는 서버에 데이터 추가하기 위한 클래스
 
     @SerializedName("title")
     String title;

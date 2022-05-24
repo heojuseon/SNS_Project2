@@ -66,9 +66,9 @@ public class Write_Board extends AppCompatActivity {
         sns_board.setImg(editimg.getText().toString());
         sns_board.setContent(editcontent.getText().toString());
 
-        snsAPI.addSns(sns_board).enqueue(new Callback<Sns>() {
+        snsAPI.addSns(sns_board).enqueue(new Callback<Sns_board>() {
             @Override
-            public void onResponse(Call<Sns> call, Response<Sns> response) {
+            public void onResponse(Call<Sns_board> call, Response<Sns_board> response) {
 
                 if(response.code() == 200){
 
@@ -77,7 +77,7 @@ public class Write_Board extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Sns> call, Throwable t) {
+            public void onFailure(Call<Sns_board> call, Throwable t) {
 
             }
         });

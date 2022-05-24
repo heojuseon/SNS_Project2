@@ -1,12 +1,21 @@
 package com.example.sns_project2.sns_data;
 
 public class Sns {
+    //Sns클래스는 Sns_board클래스에서 추가한 데이터들의 목록을 보여주는 역할을 하는 클래스
 
     private int sid;
     private String title;
     private String img;
     private String date;
     private String content;
+
+    public Sns(int sid, String title, String img, String date, String content) {
+        this.sid = sid;
+        this.title = title;
+        this.img = img;
+        this.date = date;
+        this.content = content;
+    }
 
     public int getSid() {
         return sid;

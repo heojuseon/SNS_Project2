@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,11 +29,14 @@ import retrofit2.Retrofit;
 
 
 public class Board extends Fragment {
-    ArrayList<Sns_board> snslist;
+    ArrayList<Sns> snslist;
     Retrofit retrofit;
     SnsAPI snsAPI;
 
     Button wrtbtn;
+
+    Sns_Adapter sns_adapter;
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +49,13 @@ public class Board extends Fragment {
 
         getSnsList();
 
+        recyclerView = rootView.findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+//        //getSnsList()메소드 안에 onResponse()에서 구현해야 한다
+//        sns_adapter = new Sns_Adapter();
+//        recyclerView.setAdapter(sns_adapter);
 
         wrtbtn = rootView.findViewById(R.id.writebtn);
         wrtbtn.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +74,9 @@ public class Board extends Fragment {
         Log.d("apiTest ","getSnsList");
         snsAPI = retrofit.create(SnsAPI.class);
 
-        snsAPI.getSnsList().enqueue(new Callback<ArrayList<Sns_board>>() {
+        snsAPI.getSnsList().enqueue(new Callback<ArrayList<Sns>>() {
             @Override
-            public void onResponse(Call<ArrayList<Sns_board>> call, Response<ArrayList<Sns_board>> response) {
+            public void onResponse(Call<ArrayList<Sns>> call, Response<ArrayList<Sns>> response) {
 
                 if(response.code() == 200){
 
@@ -73,15 +85,21 @@ public class Board extends Fragment {
                     //몇번째 게시물을 가져오는가
                     //전체다 조회하는 코드는 파워리프팅관련 코드 참조
                     for (int i = 0; i < snslist.size(); i++){
-                        Sns_board sns_board = snslist.get(i);
+                        Sns sns = snslist.get(i);
 
                         Log.d("apiTest",snslist.toString());
-                        Log.d("apiTest",sns_board.getTitle());
-                        Log.d("apiTest",sns_board.getImg());
-                        Log.d("apiTest",sns_board.getDate());
-                        Log.d("apiTest",sns_board.getContent());
+                        Log.d("apiTest",sns.getTitle());
+                        Log.d("apiTest",sns.getImg());
+                        Log.d("apiTest",sns.getDate());
+                        Log.d("apiTest",sns.getContent());
 
                     }
+
+                    //sns_adapter = new Sns_Adapter(); 생성 안하면 NullPointerException 오류 발생
+                    sns_adapter = new Sns_Adapter();
+                    recyclerView.setAdapter(sns_adapter);
+                    sns_adapter.setItems(snslist);
+
 //                    Sns sns = snslist.get(1);
 //
 //                    Log.d("apiTest",snslist.toString());
@@ -94,10 +112,11 @@ public class Board extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Sns_board>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Sns>> call, Throwable t) {
 
             }
         });
 
     }
+
 }
