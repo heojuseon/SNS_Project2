@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -28,18 +29,26 @@
                 android:layout_height="wrap_content"
                 android:text="제목" />
 
-            <TextView
+<!--            <TextView-->
+<!--                android:id="@+id/board_img"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="@drawable/edittext_shape"-->
+<!--                android:text="이미지" />-->
+
+            <ImageView
                 android:id="@+id/board_img"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:background="@drawable/edittext_shape"
-                android:text="이미지" />
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/board_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textIsSelectable="true"
                 android:text="내용" />
         </LinearLayout>
 

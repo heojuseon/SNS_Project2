@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textIsSelectable="true"
+
         android:hint="제목" />
 
     <EditText
@@ -29,6 +31,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textIsSelectable="true"
         android:hint="이미지" />
 
     <EditText

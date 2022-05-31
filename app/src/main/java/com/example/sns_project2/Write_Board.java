@@ -1,6 +1,8 @@
 package com.example.sns_project2;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import android.os.Bundle;
 import android.util.Log;
@@ -53,9 +55,15 @@ public class Write_Board extends AppCompatActivity {
             public void onClick(View view) {
                 addSns();
             }
+
         });
 
+
+
     }
+
+
+
 
     private void addSns() {
         Log.d("apiTest ","addSns");
@@ -83,4 +91,7 @@ public class Write_Board extends AppCompatActivity {
         });
 
     }
+
+
+
 }
