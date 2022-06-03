@@ -41,4 +41,13 @@
         </activity>
     </application>
 
+
+<!--    유튜브 썸네일 사용할시...-->
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
+
+
 </manifest>
