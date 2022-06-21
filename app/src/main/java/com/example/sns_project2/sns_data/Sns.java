@@ -1,6 +1,10 @@
 package com.example.sns_project2.sns_data;
 
-public class Sns {
+
+import java.io.Serializable;
+
+//Intent로 객체를 전달할때는 implements Serializable 사용해야한다.
+public class Sns implements Serializable {
     //Sns클래스는 Sns_board클래스에서 추가한 데이터들의 목록을 보여주는 역할을 하는 클래스
 
     private int sid;

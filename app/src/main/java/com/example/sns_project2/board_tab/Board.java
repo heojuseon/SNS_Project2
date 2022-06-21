@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.sns_project2.R;
 import com.example.sns_project2.Write_Board;
@@ -20,6 +21,8 @@ import com.example.sns_project2.sns_data.Sns_board;
 import com.example.sns_project2.sns_network.SnsAPI;
 import com.example.sns_project2.sns_network.SnsRequest;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -47,6 +50,7 @@ public class Board extends Fragment {
         retrofit = SnsRequest.getClient();
         snsAPI = retrofit.create(SnsAPI.class);
 
+
         getSnsList();
 
         recyclerView = rootView.findViewById(R.id.recyclerview);
@@ -65,6 +69,7 @@ public class Board extends Fragment {
                 startActivity(intent);
             }
         });
+
 
         return rootView;
     }
@@ -99,6 +104,22 @@ public class Board extends Fragment {
                     sns_adapter = new Sns_Adapter();
                     recyclerView.setAdapter(sns_adapter);
                     sns_adapter.setItems(snslist);
+
+
+
+                    //getSnsList()메소드에서 리스트를 출력하고 있기 때문에 OnSnsItemClickListener를 여기서 출력한다
+                    sns_adapter.setOnItemClickListener(new OnSnsItemClickListener() {
+                        @Override
+                        public void onItemClick(Sns_Adapter.ViewHolder holder, View view, int position) {
+                            Sns item = sns_adapter.getItem(position);
+                            Toast.makeText(getContext(), "게시물 선택됨: " + item.getTitle(),
+                                    Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(getActivity(), Sns_detailActivity.class);
+                            intent.putExtra("snsData", (Serializable) item);
+                            startActivity(intent);
+                        }
+                    });
 
 //                    Sns sns = snslist.get(1);
 //

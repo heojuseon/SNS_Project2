@@ -20,9 +20,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> {
+public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> implements OnSnsItemClickListener{
     ArrayList<Sns> items = new ArrayList<>();
 
+    OnSnsItemClickListener listener;
 
     @NonNull
     @Override
@@ -30,7 +31,7 @@ public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.board_item, parent, false);
 
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, this);
     }
 
     @Override
@@ -49,6 +50,30 @@ public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> {
         this.items = items;
     }
 
+    //외부에서 리스너를 설정할 수 있도록 메소드 추가 ( setOnItemClickListener )
+    //Board 클래스에서 setOnItemClickListener메소드 사용하기 위해 생성
+    public void setOnItemClickListener(OnSnsItemClickListener listener){
+
+        this.listener = listener;
+    }
+
+    @Override
+    public void onItemClick(ViewHolder holder, View view, int position) {
+        if (listener != null){
+            listener.onItemClick(holder, view, position);
+        }
+    }
+
+
+    //Board 에서 onItemClickListener 사용할때 Sns 데이터를 가져오기 위함
+    public Sns getItem(int position){
+        return items.get(position);
+    }
+
+
+
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         Bitmap bitmap;
@@ -60,13 +85,24 @@ public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> {
         ImageView imageView;
         TextView textView4;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnSnsItemClickListener listener) {
             super(itemView);
             textView = itemView.findViewById(R.id.board_date);
             textView2 = itemView.findViewById(R.id.board_title);
 //            textView3 = itemView.findViewById(R.id.board_img);
             imageView = itemView.findViewById(R.id.board_img);
             textView4 = itemView.findViewById(R.id.board_content);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+
+                    if (listener != null){
+                        listener.onItemClick(ViewHolder.this, view, position);
+                    }
+                }
+            });
         }
         public void setItem(Sns item) {
 

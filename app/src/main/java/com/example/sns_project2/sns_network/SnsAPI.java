@@ -23,6 +23,9 @@ public interface SnsAPI {
     @POST("sns") //등록
     Call<Sns_board> addSns(@Body Sns_board post);
 
+    @DELETE("sns/{sid}")
+    Call<Sns> deleteSns(@Path("sid") int sid);
+
 //    @GET("sns/{sid}") //상세 목록
 //    Call<Sns> getSns(@Path("sid") int sid);
 //

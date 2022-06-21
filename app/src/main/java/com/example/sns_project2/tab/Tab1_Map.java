@@ -3,6 +3,7 @@ package com.example.sns_project2.tab;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 
 import noman.googleplaces.NRPlaces;
 import noman.googleplaces.Place;
@@ -71,6 +74,25 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
         mapView.onResume();
         mapView.getMapAsync(this); // 비동기적 방식으로 구글 맵 실행
 
+        //포그라운 위치 권한 - 앱의 화면이 보이는 상태에서 위치를 체크하게 되는
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck == PackageManager.PERMISSION_DENIED){ //포그라운드 위치 권한 확인
+
+            //위치 권한 요청
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+
+
+//        //백그라운 위치 권한 - 화면이 보이지 않지만 위치는 체크 하고 있는
+//        //백그라운드 위치 권한 요청을 하려면 Manifest에 한 가지 더 추가해줘야 한다.(<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />)
+//        int permissionCheck2 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+//
+//        if(permissionCheck2 == PackageManager.PERMISSION_DENIED){ //백그라운드 위치 권한 확인
+//            //위치 권한 요청
+//            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
+//        }
+
+
 
         return rootView;
     }
@@ -89,9 +111,6 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
                 initLocationManager();
             }
         });
-
-
-
 
     }
 

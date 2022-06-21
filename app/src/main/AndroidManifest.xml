@@ -6,6 +6,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+
+
+    <!-- 유튜브 API(썸네일) 사용할시... -->
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="false"
@@ -16,6 +26,9 @@
         android:theme="@style/Theme.SNS_Project2"
         android:usesCleartextTraffic="true"
         tools:replace="theme, icon, label">
+        <activity
+            android:name=".board_tab.Sns_detailActivity"
+            android:exported="false" />
         <activity
             android:name=".Write_Board"
             android:exported="false" />
@@ -39,15 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
-
-
-<!--    유튜브 썸네일 사용할시...-->
-    <queries>
-        <intent>
-            <action android:name="com.google.android.youtube.api.service.START" />
-        </intent>
-    </queries>
-
 
 </manifest>
