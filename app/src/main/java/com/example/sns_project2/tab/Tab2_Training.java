@@ -19,12 +19,14 @@ import android.widget.Toolbar;
 
 import com.example.sns_project2.R;
 import com.example.sns_project2.training_tab.Health;
+import com.example.sns_project2.training_tab.Health2;
 import com.example.sns_project2.training_tab.Running;
 import com.google.android.material.tabs.TabLayout;
 
 public class Tab2_Training extends Fragment {
 
     Health health;
+    Health2 health2;
     Running running;
 
     TabLayout mtablayout;
@@ -36,6 +38,7 @@ public class Tab2_Training extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_tab2__training, container, false);
 
         health = new Health();
+        health2 = new Health2();
         running = new Running();
 
 //        getChildFragmentManager().beginTransaction().replace(R.id.training_fram, health).commit();
@@ -59,6 +62,10 @@ public class Tab2_Training extends Fragment {
                                 .replace(R.id.training_fram, running).commit();
 
                         break;
+
+                    case 2:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.training_fram, health2).commit();
                 }
             }
 
