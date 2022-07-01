@@ -10,6 +10,7 @@
 
 
 
+
     <!-- 유튜브 API(썸네일) 사용할시... -->
     <queries>
         <intent>
@@ -25,6 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SNS_Project2"
         android:usesCleartextTraffic="true"
+
         tools:replace="theme, icon, label">
         <activity
             android:name=".board_tab.Sns_detailActivity"

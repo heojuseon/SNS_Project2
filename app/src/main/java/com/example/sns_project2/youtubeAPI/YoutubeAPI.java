@@ -2,6 +2,7 @@ package com.example.sns_project2.youtubeAPI;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YoutubeAPI {
@@ -21,7 +22,7 @@ public class YoutubeAPI {
     private PageInfoBean pageInfo;
 
     @SerializedName("items")
-    private List<ItemsBean> items;
+    private ArrayList<ItemsBean> items;
 
     public String getKind() {
         return kind;
@@ -63,11 +64,11 @@ public class YoutubeAPI {
         this.pageInfo = pageInfo;
     }
 
-    public List<ItemsBean> getItems() {
+    public ArrayList<ItemsBean> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemsBean> items) {
+    public void setItems(ArrayList<ItemsBean> items) {
         this.items = items;
     }
 

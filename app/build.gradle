@@ -65,5 +65,9 @@ dependencies {
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    //이미지뷰 관련 설정
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
