@@ -5,6 +5,7 @@ import com.example.sns_project2.sns_data.Sns_board;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -23,8 +24,11 @@ public interface SnsAPI {
     @POST("sns") //등록
     Call<Sns_board> addSns(@Body Sns_board post);
 
+//    @DELETE("sns/{sid}")
+//    Call<Sns> deleteSns(@Path("sid") int sid);
+
     @DELETE("sns/{sid}")
-    Call<Sns> deleteSns(@Path("sid") int sid);
+    Call<ResponseBody> deleteSns(@Path("sid") int sid);
 
 //    @GET("sns/{sid}") //상세 목록
 //    Call<Sns> getSns(@Path("sid") int sid);

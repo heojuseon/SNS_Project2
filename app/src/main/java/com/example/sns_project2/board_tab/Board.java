@@ -93,6 +93,7 @@ public class Board extends Fragment {
                         Sns sns = snslist.get(i);
 
                         Log.d("apiTest",snslist.toString());
+                        Log.d("apiTest", String.valueOf(sns.getSid()));
                         Log.d("apiTest",sns.getTitle());
                         Log.d("apiTest",sns.getImg());
                         Log.d("apiTest",sns.getDate());

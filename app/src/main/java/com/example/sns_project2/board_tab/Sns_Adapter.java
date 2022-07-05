@@ -1,11 +1,14 @@
 package com.example.sns_project2.board_tab;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,13 +18,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sns_project2.R;
 import com.example.sns_project2.sns_data.Sns;
+import com.example.sns_project2.sns_network.SnsAPI;
+import com.example.sns_project2.sns_network.SnsRequest;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> implements OnSnsItemClickListener{
     ArrayList<Sns> items = new ArrayList<>();
+    SnsAPI snsAPI;
+    Retrofit retrofit;
 
     OnSnsItemClickListener listener;
 
@@ -35,10 +48,48 @@ public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Sns snsitem = items.get(position);
         holder.setItem(snsitem);
+
+
+        holder.delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("apiTest ","get_deleteSnsList");
+                deleteSns();
+            }
+
+            private void deleteSns() {
+                Log.d("apiTest ","get_deleteSnsList");
+
+                retrofit = SnsRequest.getClient();
+                snsAPI = retrofit.create(SnsAPI.class);
+
+                snsAPI.deleteSns(items.get(position).getSid()).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        items.remove(position);
+                        notifyItemRemoved(position);
+
+                        if(response.code() == 200){
+
+                            Log.d("apiTest",response.toString());
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -79,19 +130,25 @@ public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> im
         Bitmap bitmap;
         Handler handler = new Handler();
 
+        TextView sid;
         TextView textView;
         TextView textView2;
 //        TextView textView3;
         ImageView imageView;
         TextView textView4;
 
+        Button delete_btn;
+
         public ViewHolder(@NonNull View itemView, final OnSnsItemClickListener listener) {
             super(itemView);
+            sid = itemView.findViewById(R.id.sns_sid);
             textView = itemView.findViewById(R.id.board_date);
             textView2 = itemView.findViewById(R.id.board_title);
 //            textView3 = itemView.findViewById(R.id.board_img);
             imageView = itemView.findViewById(R.id.board_img);
             textView4 = itemView.findViewById(R.id.board_content);
+
+            delete_btn = itemView.findViewById(R.id.sns_delete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,6 +198,7 @@ public class Sns_Adapter extends RecyclerView.Adapter<Sns_Adapter.ViewHolder> im
             t.start();
 
 
+            sid.setText(String.valueOf(item.getSid()));
             textView.setText(item.getDate());
             textView2.setText(item.getTitle());
 //            textView3.setText(item.getImg());

@@ -29,8 +29,9 @@ public class Sns_detailActivity extends AppCompatActivity {
     ArrayList<Sns> snslist;
     Retrofit retrofit;
 
-    Sns_Adapter sns_adapter;
-    RecyclerView recyclerView;
+//    Sns_Adapter sns_adapter;
+//    RecyclerView recyclerView;
+
 
     TextView textView;
 
@@ -66,7 +67,7 @@ public class Sns_detailActivity extends AppCompatActivity {
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteSns();
+//                deleteSns();
             }
         });
 
@@ -74,31 +75,26 @@ public class Sns_detailActivity extends AppCompatActivity {
 
     }
 
-    private void deleteSns() {
-        Log.d("apiTest ","get_deleteSnsList");
 
-        snsAPI.deleteSns(10).enqueue(new Callback<Sns>() {
-
-            @Override
-            public void onResponse(Call<Sns> call, Response<Sns> response) {
-
-                if(response.code() == 200){
-
-                    Log.d("apiTest",response.toString());
-
-//                    sns_adapter = new Sns_Adapter();
-//                    recyclerView.setAdapter(sns_adapter);
-//                    sns_adapter.setItems(snslist);
-
-
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Sns> call, Throwable t) {
-
-            }
-        });
-    }
+//    private void deleteSns() {
+//        Log.d("apiTest ","get_deleteSnsList");
+//
+//
+//        snsAPI.deleteSns(10).enqueue(new Callback<Sns>() {
+//            @Override
+//            public void onResponse(Call<Sns> call, Response<Sns> response) {
+//
+//                if(response.code() == 200){
+//
+//                    Log.d("apiTest",response.toString());
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Sns> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }

@@ -2,18 +2,24 @@ package com.example.sns_project2;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.sns_project2.board_tab.Board;
 import com.example.sns_project2.sns_data.Sns;
 import com.example.sns_project2.sns_data.Sns_board;
 import com.example.sns_project2.sns_network.SnsAPI;
 import com.example.sns_project2.sns_network.SnsRequest;
+import com.example.sns_project2.tab.Tab3_Sns;
 
 import java.util.ArrayList;
 
@@ -34,6 +40,7 @@ public class Write_Board extends AppCompatActivity {
 
     Button insertbtn;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +56,17 @@ public class Write_Board extends AppCompatActivity {
         retrofit = SnsRequest.getClient();
         snsAPI = retrofit.create(SnsAPI.class);
 
+
+
         insertbtn = findViewById(R.id.insert);
         insertbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addSns();
+                finish();
             }
 
         });
-
-
 
     }
 

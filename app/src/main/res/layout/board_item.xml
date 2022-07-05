@@ -18,6 +18,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/sns_sid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
                 android:id="@+id/board_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +56,15 @@
                 android:layout_height="wrap_content"
                 android:textIsSelectable="true"
                 android:text="내용" />
+
+            <Button
+                android:id="@+id/sns_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="삭제" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 </LinearLayout>
