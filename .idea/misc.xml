@@ -7,6 +7,9 @@
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/buttonclick.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/edittext_shape.xml" value="0.237" />
+        <entry key="app/src/main/res/drawable/login_button_shape.xml" value="0.2545" />
+        <entry key="app/src/main/res/drawable/map_button_shape.xml" value="0.2545" />
+        <entry key="app/src/main/res/drawable/map_buttonclick.xml" value="0.2545" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.2477355072463768" />
@@ -20,7 +23,7 @@
         <entry key="app/src/main/res/layout/fragment_health.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout/fragment_health2.xml" value="0.2749094202898551" />
         <entry key="app/src/main/res/layout/fragment_running.xml" value="0.2477355072463768" />
-        <entry key="app/src/main/res/layout/fragment_tab1__map.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_tab1__map.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_tab2__training.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout/fragment_tab3__sns.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout/fragment_tab4__setting.xml" value="0.2477355072463768" />
@@ -37,5 +40,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.165" />
+      </ProjectState>
+    </option>
   </component>
 </project>

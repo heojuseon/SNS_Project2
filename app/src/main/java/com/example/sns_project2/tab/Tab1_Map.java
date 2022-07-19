@@ -1,304 +1,277 @@
 package com.example.sns_project2.tab;
 
 import android.Manifest;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.sns_project2.R;
+
+import com.example.sns_project2.mapData.FetchData;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-
-import noman.googleplaces.NRPlaces;
-import noman.googleplaces.Place;
-import noman.googleplaces.PlaceType;
-import noman.googleplaces.PlacesException;
-import noman.googleplaces.PlacesListener;
-
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 public class Tab1_Map extends Fragment implements OnMapReadyCallback {
-
-    GoogleMap gMap;
+    private GoogleMap gMap;
     MapView mapView = null;
 
-    MarkerOptions myLocationPin;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int REQUEST_CODE = 1;
+    private double lat, lng;
 
-    //Places API - PlacesListener
-    List<Marker> previous_marker = null;
+    Button gym, cafe, convenience_store;
+    ImageButton refresh;
 
-
-    Button searchbtn;
-
-
+    Fragment frg = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_tab1__map, container, false);
 
+//        /*Fragment내에서는 mapView로 지도를 실행*/
+//        mapView = (MapView) rootView.findViewById(R.id.mapView);
+//        mapView.onCreate(savedInstanceState);
+//        mapView.onResume();
+//        mapView.getMapAsync(this); // 비동기적 방식으로 구글 맵 실행
 
-        /*Fragment내에서는 mapView로 지도를 실행*/
-        mapView = (MapView) rootView.findViewById(R.id.mapView);
+        gym = rootView.findViewById(R.id.gym_search);
+        cafe = rootView.findViewById(R.id.cafe_search);
+        convenience_store = rootView.findViewById(R.id.convenience_store_search);
+        refresh = rootView.findViewById(R.id.refresh_btn);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.getContext());
+        mapView = (MapView) rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
-        mapView.getMapAsync(this); // 비동기적 방식으로 구글 맵 실행
-
-        //포그라운 위치 권한 - 앱의 화면이 보이는 상태에서 위치를 체크하게 되는
-        int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-        if(permissionCheck == PackageManager.PERMISSION_DENIED){ //포그라운드 위치 권한 확인
-
-            //위치 권한 요청
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
+        mapView.getMapAsync(this);
 
 
-//        //백그라운 위치 권한 - 화면이 보이지 않지만 위치는 체크 하고 있는
-//        //백그라운드 위치 권한 요청을 하려면 Manifest에 한 가지 더 추가해줘야 한다.(<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />)
-//        int permissionCheck2 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-//
-//        if(permissionCheck2 == PackageManager.PERMISSION_DENIED){ //백그라운드 위치 권한 확인
-//            //위치 권한 요청
-//            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
-//        }
+        gym.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+                stringBuilder.append("location=" + lat + "," + lng);
+                stringBuilder.append("&radius=1000");
+                stringBuilder.append("&type=gym");
+                stringBuilder.append("&sensor=true");
+                stringBuilder.append("&key=AIzaSyCFWHshQcfZkyPmOscoBEIQMmiN5aphjZ4");
+
+                String url = stringBuilder.toString();
+                Object dataFetch[] = new Object[2];
+                dataFetch[0] = gMap;
+                dataFetch[1] = url;
+
+                FetchData fetchData = new FetchData();
+                fetchData.execute(dataFetch);
 
 
+            }
+        });
+
+
+        cafe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+                stringBuilder.append("location=" + lat + "," + lng);
+                stringBuilder.append("&radius=1000");
+                stringBuilder.append("&type=cafe");
+                stringBuilder.append("&sensor=true");
+                stringBuilder.append("&key=AIzaSyCFWHshQcfZkyPmOscoBEIQMmiN5aphjZ4");
+
+                String url = stringBuilder.toString();
+                Object dataFetch[] = new Object[2];
+                dataFetch[0] = gMap;
+                dataFetch[1] = url;
+
+                FetchData fetchData = new FetchData();
+                fetchData.execute(dataFetch);
+
+            }
+        });
+
+        convenience_store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+                stringBuilder.append("location=" + lat + "," + lng);
+                stringBuilder.append("&radius=1000");
+                stringBuilder.append("&type=convenience_store");
+                stringBuilder.append("&sensor=true");
+                stringBuilder.append("&key=AIzaSyCFWHshQcfZkyPmOscoBEIQMmiN5aphjZ4");
+
+                String url = stringBuilder.toString();
+                Object dataFetch[] = new Object[2];
+                dataFetch[0] = gMap;
+                dataFetch[1] = url;
+
+                FetchData fetchData = new FetchData();
+                fetchData.execute(dataFetch);
+            }
+        });
+
+
+        //새로고침 버튼
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                fragmentManager.beginTransaction().remove(Tab1_Map.this).commit();
+//                fragmentManager.beginTransaction().detach(Tab1_Map.this).attach(Tab1_Map.this);
+//                fragmentManager.popBackStack();
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.framelayout, Tab1_Map.class, null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack("null") // name can be null
+                        .commit();
+
+            }
+        });
+
+
+
+//        getCurrentLocation();
 
         return rootView;
     }
 
+
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        gMap = googleMap;
 
-        previous_marker = new ArrayList<Marker>();
+        getCurrentLocation();
+
+    }
 
 
-        searchbtn = view.findViewById(R.id.search);
-        searchbtn.setOnClickListener(new View.OnClickListener() {
+    private void getCurrentLocation() {
+
+
+        if (ActivityCompat.checkSelfPermission(
+                getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+
+
+            return;
+        }
+
+        //오른쪽 상단 gps버튼
+        gMap.setMyLocationEnabled(true);
+
+
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(60000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setFastestInterval(5000);
+
+        LocationCallback locationCallback = new LocationCallback() {
             @Override
-            public void onClick(View view) {
-                initLocationManager();
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                Log.d("Location result", "location result is = " + locationResult);
+
+                if(locationRequest == null){
+                    Log.d("Current location", "Current location is null");
+
+                    return;
+                }
+                for (Location location:locationResult.getLocations()){
+                    if (location != null){
+                        Log.d("Current location", "Current location is = " + location.getLatitude() + location.getLongitude());
+                    }
+                }
+
+//                //프래그먼트에서 Toast를 사용하려면 onCreateView(즉 프래그먼트 끝나기 전 시점)에서 사용해야한다.
+//                Toast.makeText(getContext(), "location result is = " + locationResult, Toast.LENGTH_LONG).show();
+//
+//                if (locationRequest == null){
+//                    Toast.makeText(getContext(), "Current location is null", Toast.LENGTH_LONG).show();
+//
+//                    return;
+//                }
+//                for (Location location:locationResult.getLocations()){
+//                    if (location != null){
+//                        Toast.makeText(getContext(), "Current location is = "+ location.getLongitude() , Toast.LENGTH_LONG).show();
+//                    }
+//                }
+            }
+        };
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+
+                if (location != null) {
+
+                    lat = location.getLatitude();
+                    lng = location.getLongitude();
+
+                    LatLng latLng = new LatLng(lat, lng);
+                    gMap.addMarker(new MarkerOptions().position(latLng).title("current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+                }
             }
         });
 
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        try {
-            MapsInitializer.initialize(this.getContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }        gMap = googleMap;
+        switch (REQUEST_CODE){
+            case REQUEST_CODE:
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
+                    getCurrentLocation();
 
-
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-
-        //구글맵 실행시 시작 위치로 카메라 이동과 줌 사이즈
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 15));
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        gMap.addMarker(markerOptions);
-
-
-    }
-
-    public void initLocationManager() {
-        LocationManager manager = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
-
-        try {
-            Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-
-                Log.d("GPS",  "startLocationService  Latitude : "+ latitude + "+ Longitude:"+ longitude);
-            }
-
-            GPSListener gpsListener = new GPSListener();
-            long minTime = 10000;
-            float minDistance = 0;
-
-            manager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    minTime, minDistance, gpsListener);
-
-
-        } catch(SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
-    class GPSListener implements LocationListener {
-
-
-        public void onLocationChanged(Location location) {
-            Double latitude = location.getLatitude();
-            Double longitude = location.getLongitude();
-
-            Log.d("GPS",  "onLocationChanged  Latitude : "+ latitude + "+ Longitude:"+ longitude);
-
-            LatLng curPoint = new LatLng(latitude, longitude);
-            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
-
-            if (myLocationPin == null) {
-                myLocationPin = new MarkerOptions();
-                myLocationPin.position(curPoint);
-                myLocationPin.title("내 위치");
-                myLocationPin.snippet("hi hi");
-                myLocationPin.icon(BitmapDescriptorFactory.fromResource(R.drawable.location_pin));
-                gMap.addMarker(myLocationPin);
-
-                initPlaceLocation(curPoint);
-
-            } else {
-                myLocationPin.position(curPoint);
-            }
-        }
-
-        public void onProviderDisabled(String provider) { }
-
-        public void onProviderEnabled(String provider) { }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
-    }
-
-    //Places API - PlacesListener
-
-    public void initPlaceLocation(LatLng location)
-    {
-        PlacesAPIListener placesAPIListener = new PlacesAPIListener();
-
-
-        gMap.clear();//지도 클리어
-
-        if (previous_marker != null)
-            previous_marker.clear();//지역정보 마커 클리어
-
-        new NRPlaces.Builder()
-                .listener(placesAPIListener)
-                .key("AIzaSyCzmawqBqx01jL2nzmdCH4urzpW5ygclmM") // API 키
-                .latlng(location.latitude, location.longitude)//현재 위치
-                .radius(500) //미터 내에서 검색 (500미터)
-                .type(PlaceType.GYM) //장소 타입 ( 헬스장 )
-                .build()
-                .execute();
-    }
-
-    class PlacesAPIListener implements PlacesListener{
-        @Override
-        public void onPlacesFailure(PlacesException e) {
-
-        }
-
-        @Override
-        public void onPlacesStart() {
-
-        }
-
-        @Override
-        public void onPlacesSuccess(List<Place> places) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    for (noman.googleplaces.Place place : places) {
-
-                        LatLng latLng
-                                = new LatLng(place.getLatitude()
-                                , place.getLongitude());
-
-                        String markerSnippet = getCurrentAddress(latLng);
-
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(place.getName());
-                        markerOptions.snippet(markerSnippet);
-                        Marker item = gMap.addMarker(markerOptions);
-
-                        previous_marker.add(item);
-
-                    }
-
-                    //중복 마커 제거
-                    HashSet<Marker> hashSet = new HashSet<Marker>();
-                    hashSet.addAll(previous_marker);
-                    previous_marker.clear();
-                    previous_marker.addAll(hashSet);
 
                 }
-            });
-        }
-
-        @Override
-        public void onPlacesFinished() {
-
-        }
-
-        public String getCurrentAddress(LatLng latlng) {
-
-            //GPS를 주소로 변환
-            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-            List<Address> addresses;
-
-            try {
-                addresses = geocoder.getFromLocation(
-                        latlng.latitude,
-                        latlng.longitude,
-                        1);
-            } catch (IOException ioException) {
-
-                return "네트워크 문제";
-            } catch (IllegalArgumentException illegalArgumentException) {
-                return "GPS 좌표 없음";
-            }
-
-
-            if (addresses == null || addresses.size() == 0) {
-
-                return "주소 없음";
-
-            } else {
-                Address address = addresses.get(0);
-                return address.getAddressLine(0).toString();
-            }
-
         }
     }
 }

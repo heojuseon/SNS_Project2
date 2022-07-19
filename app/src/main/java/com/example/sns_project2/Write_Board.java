@@ -63,7 +63,6 @@ public class Write_Board extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addSns();
-                finish();
             }
 
         });

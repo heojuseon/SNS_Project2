@@ -1,20 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".tab.Tab1_Map">
 
-    <Button
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
     <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/gym_search"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/map_buttonclick"
+        android:backgroundTint="@null"
+        android:text="헬스장"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cafe_search"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/map_buttonclick"
+        android:backgroundTint="@null"
+        android:text="카페"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/convenience_store_search"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/map_buttonclick"
+        android:backgroundTint="@null"
+        android:text="편의점"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+    <ImageButton
+        android:id="@+id/refresh_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/convenience_store_search"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="10dp"
+        android:src="@android:drawable/ic_popup_sync" />
+
+</RelativeLayout>
+
+<!--버튼을 스타일을 따로 지정하기 위해서는 <androidx.appcompat.widget.AppCompatButton 을 사용해야한다.-->
+<!--전제적으로 버튼 스타일을 지정하려면 themes에서 설정해야한다.-->
