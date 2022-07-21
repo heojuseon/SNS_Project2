@@ -10,6 +10,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
+        android:id="@+id/textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="자유게시판"
@@ -28,11 +29,20 @@
             android:text="게시글작성" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+        android:id="@+id/swiper_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

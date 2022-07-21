@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import android.content.Intent;
@@ -19,6 +20,7 @@ import com.example.sns_project2.sns_data.Sns;
 import com.example.sns_project2.sns_data.Sns_board;
 import com.example.sns_project2.sns_network.SnsAPI;
 import com.example.sns_project2.sns_network.SnsRequest;
+import com.example.sns_project2.tab.Tab1_Map;
 import com.example.sns_project2.tab.Tab3_Sns;
 
 import java.util.ArrayList;
@@ -63,11 +65,33 @@ public class Write_Board extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addSns();
+
+                finish();
+
+
+
+
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("Date",editdate.getText().toString());
+//                bundle.putString("Title",edittitle.getText().toString());
+//                bundle.putString("Img",editimg.getText().toString());
+//                bundle.putString("Content",editcontent.getText().toString());
+//
+//                Board board = new Board();
+//                board.setArguments(bundle);
+//
+//                fragmentTransaction.replace(R.id.sns_board_frame, board).commit();
+
+
             }
 
         });
 
     }
+
 
 
 

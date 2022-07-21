@@ -69,4 +69,7 @@ dependencies {
 
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //밀어서 새로고침 기능
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

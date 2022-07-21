@@ -1,13 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
     tools:context=".tab.Tab4_Setting">
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/button4"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/left"
+                android:text="Button" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/button7"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/list"
+                android:text="Button" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그아웃" />
-</FrameLayout>
+        android:paddingStart="10dp"
+        android:text="환경설정"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:paddingStart="10dp"
+        android:text="알림 설정"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/setting_btn"
+        android:backgroundTint="@null"
+        android:drawableRight="@drawable/image_size"
+        android:drawablePadding="200dp"
+        android:gravity="center|left"
+        android:paddingStart="10dp"
+        android:text="푸시(PUSH) 알림 설정" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#aaaaaa" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingStart="10dp"
+            android:text="앱 환경설정"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/setting_btn"
+            android:backgroundTint="@null"
+            android:drawableRight="@drawable/image_size"
+            android:drawablePadding="200dp"
+            android:gravity="center|left"
+            android:paddingStart="10dp"
+            android:text="버전확인" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/setting_btn"
+            android:backgroundTint="@null"
+            android:drawableRight="@drawable/image_size"
+            android:drawablePadding="200dp"
+            android:gravity="center|left"
+            android:paddingStart="10dp"
+            android:text="로그아웃" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#aaaaaa" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingStart="10dp"
+            android:text="스마트폰 관리"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@drawable/setting_btn2"
+                    android:text="1:1 문의" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="100dp"
+                    android:background="@drawable/setting_btn2"
+                    android:text="친구초대" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@drawable/setting_btn2"
+                    android:text="시설등록요청" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="100dp"
+                    android:background="@drawable/setting_btn2"
+                    android:text="FAQ" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@drawable/setting_btn2"
+                    android:text="고객센터" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="100dp"
+                    android:background="@drawable/setting_btn2"
+                    android:text="이벤트" />
+
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

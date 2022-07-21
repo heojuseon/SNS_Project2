@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.example.sns_project2.sns_data.Sns;
 import com.example.sns_project2.sns_data.Sns_board;
 import com.example.sns_project2.sns_network.SnsAPI;
 import com.example.sns_project2.sns_network.SnsRequest;
+import com.example.sns_project2.tab.Tab1_Map;
 
 
 import java.io.Serializable;
@@ -31,7 +34,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 
-public class Board extends Fragment {
+public class Board extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     ArrayList<Sns> snslist;
     Retrofit retrofit;
     SnsAPI snsAPI;
@@ -40,6 +43,8 @@ public class Board extends Fragment {
 
     Sns_Adapter sns_adapter;
     RecyclerView recyclerView;
+
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +56,23 @@ public class Board extends Fragment {
         snsAPI = retrofit.create(SnsAPI.class);
 
 
+        swipeRefreshLayout = rootView.findViewById(R.id.swiper_board);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         getSnsList();
+
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+////                //새로 고침 코드
+////                updateLayoutView();
+//
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
+
+
+
 
         recyclerView = rootView.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
@@ -60,6 +81,7 @@ public class Board extends Fragment {
 //        //getSnsList()메소드 안에 onResponse()에서 구현해야 한다
 //        sns_adapter = new Sns_Adapter();
 //        recyclerView.setAdapter(sns_adapter);
+
 
         wrtbtn = rootView.findViewById(R.id.writebtn);
         wrtbtn.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +93,13 @@ public class Board extends Fragment {
         });
 
 
+
         return rootView;
     }
+
+//    // 당겨서 새로고침 했을 때 뷰 변경 메서드
+//    private void updateLayoutView() {
+//    }
 
     private void getSnsList() {
 
@@ -141,4 +168,9 @@ public class Board extends Fragment {
 
     }
 
+    @Override
+    public void onRefresh() {
+        getSnsList();
+        swipeRefreshLayout.setRefreshing(false);
+    }
 }
