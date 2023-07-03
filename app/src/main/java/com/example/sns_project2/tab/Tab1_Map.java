@@ -78,6 +78,7 @@ public class Tab1_Map extends Fragment implements OnMapReadyCallback {
         mapView.getMapAsync(this);
 
 
+
         gym.setOnClickListener(new View.OnClickListener() {
 
             @Override
